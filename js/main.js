@@ -107,10 +107,13 @@ function renderFooter(footer) {
   const emailLink = footer.email
     ? `<a class="footer-link" href="mailto:${escapeHtml(footer.email)}">Email：${escapeHtml(footer.email)}</a>`
     : "";
+  const phoneLink = footer.phone
+    ? `<a class="footer-link" href="tel:${escapeHtml(footer.phone.replace(/[^\d+]/g, ""))}">電話：${escapeHtml(footer.phone)}</a>`
+    : "";
   const socialLinks = (footer.socialLinks || [])
     .map((l) => `<a class="footer-link" href="${escapeHtml(l.url)}">${escapeHtml(l.label)}</a>`)
     .join("");
-  linksEl.innerHTML = emailLink + socialLinks;
+  linksEl.innerHTML = emailLink + phoneLink + socialLinks;
 
   const year = new Date().getFullYear();
   document.getElementById("footer-copyright").textContent =

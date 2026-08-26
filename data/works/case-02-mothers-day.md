@@ -1,14 +1,15 @@
 ---
-title: "母親節檔期主題貼文"
-category: "餐飲"
+title: "Colega AI 客樂加 社群經營"
+category: "其他"
 type: "instagram"
 instagramUrl: ""
+coverImage: ""
 image: ""
 linkUrl: ""
 pdfFile: ""
-goal: "結合母親節檔期，帶動來客預約與導購連結點擊。"
-role: "圖文企劃 / 文案"
-result: "分享數 +142／導購連結點擊率 9.2%"
-description: "以家庭聚餐情境切入，主打套餐方案，搭配限時預約連結。"
+goal: "協助新創品牌從零開始建立 Instagram 社群，帶動商家與粉絲成長。"
+role: "社群營運實習生"
+result: "幫助商家一個月內增加 55 位粉絲／觸及率增加 100%／品牌 IG 粉絲累積從 0 到 100"
+description: "負責客戶社群圖文企劃與製作、品牌社群圖文企劃與製作、Reels 企劃與後製剪輯，並協助品牌產品測試及優化。"
 order: 2
 ---

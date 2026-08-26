@@ -144,9 +144,10 @@
   }
 
   /* ---------- portfolio grid ---------- */
-  .grid-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--color-stone); border:1px solid var(--color-stone); }
-  @media (max-width:900px){ .grid-gallery{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:600px){ .grid-gallery{ grid-template-columns:1fr; } }
+  /* auto-fit, not a fixed column count: a live IG/FB embed has a ~326px minimum width,
+     so columns narrower than that (e.g. a rigid 3-column desktop grid) clip it. This lets
+     the grid pick however many columns actually fit at >=330px each. */
+  .grid-gallery { display:grid; grid-template-columns:repeat(auto-fit, minmax(330px, 1fr)); gap:2px; background:var(--color-stone); border:1px solid var(--color-stone); }
 
   .work-card { background:var(--color-paper); position:relative; overflow:hidden; }
   .work-media {
@@ -154,8 +155,8 @@
     background:var(--color-paper-alt);
   }
   .work-media img, .work-media iframe { width:100%; height:100%; object-fit:cover; border:0; }
-  .work-media.has-embed { aspect-ratio:auto; display:flex; justify-content:center; background:var(--color-paper); cursor:auto; }
-  .work-media.has-embed iframe { width:100%; }
+  .work-media.has-embed { aspect-ratio:auto; display:flex; justify-content:center; background:var(--color-paper); cursor:auto; overflow:visible; }
+  .work-media.has-embed iframe { width:auto; max-width:100%; }
   .work-media .ph {
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:10px;

@@ -3,7 +3,13 @@
   "title": "想更了解我的經歷與作品，\n歡迎與我聯絡，我很樂意進一步聊聊。",
   "email": "hello@example.com",
   "socialLinks": [
-    { "label": "Instagram ↗", "url": "#" },
-    { "label": "LinkedIn ↗", "url": "#" }
+    {
+      "label": "Instagram ↗",
+      "url": "#"
+    },
+    {
+      "label": "LinkedIn ↗",
+      "url": "#"
+    }
   ]
 }

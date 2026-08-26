@@ -73,8 +73,8 @@ function renderAbout(about) {
   `;
 }
 
-function renderResume(about) {
-  const educationHtml = (about.education || []).map((e) => `
+function renderResume(resume) {
+  const educationHtml = (resume.education || []).map((e) => `
     <div class="edu-item">
       <div class="edu-item-head">
         <span class="edu-school">${escapeHtml(e.school || "")}</span>
@@ -85,7 +85,7 @@ function renderResume(about) {
     </div>
   `).join("");
 
-  const experienceHtml = (about.experience || []).map((e) => `
+  const experienceHtml = (resume.experience || []).map((e) => `
     <div class="exp-item">
       <div class="exp-item-head">
         <span class="exp-company">${escapeHtml(e.company || "")}</span>
@@ -234,10 +234,11 @@ async function fetchJson(path) {
 }
 
 async function init() {
-  const [theme, hero, about, footer, works] = await Promise.all([
+  const [theme, hero, about, resume, footer, works] = await Promise.all([
     fetchJson("data/theme.json"),
     fetchJson("data/hero.json"),
     fetchJson("data/about.json"),
+    fetchJson("data/resume.json"),
     fetchJson("data/footer.json"),
     fetchJson("data/works-index.json").catch(() => []),
   ]);
@@ -245,7 +246,7 @@ async function init() {
   applyTheme(theme);
   renderHero(hero);
   renderAbout(about);
-  renderResume(about);
+  renderResume(resume);
   renderFooter(footer);
   renderWorks(works);
 

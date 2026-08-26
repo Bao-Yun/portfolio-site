@@ -86,6 +86,11 @@ collections:
             name: "tags"
             widget: "list"
             field: { label: "技能文字", name: "tag", widget: "string" }
+
+      - name: "resume"
+        label: "🎓 學歷與經歷"
+        file: "data/resume.json"
+        fields:
           - label: "學歷"
             name: "education"
             widget: "list"

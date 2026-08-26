@@ -207,8 +207,9 @@
   .work-detail .meta b { color:var(--color-ink); }
   .work-detail .desc { margin-top:20px; font-size:14.5px; color:var(--color-ink); white-space:pre-wrap; }
 
-  /* ---------- about: education / experience ---------- */
-  .about-subsection { margin-top:36px; }
+  /* ---------- resume: education / experience ---------- */
+  .resume-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:64px; }
+  @media (max-width:800px){ .resume-grid{ grid-template-columns:1fr; gap:48px; } }
   .about-subhead {
     font-family:var(--font-mono); font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase;
     color:var(--color-sage-deep); margin-bottom:18px;
@@ -253,6 +254,7 @@
     <div class="nav-mark">Studio<span>Note</span></div>
     <nav class="nav-links">
       <a href="#about">關於我</a>
+      <a href="#resume">學經歷</a>
       <a href="#works">作品集</a>
     </nav>
     <a href="#contact" class="nav-cta">聯絡我</a>
@@ -283,6 +285,27 @@
       </div>
     </div>
     <div class="about-copy" id="about-copy"></div>
+  </div>
+</section>
+
+<section class="resume" id="resume">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow" style="margin-bottom:14px;">Background</p>
+        <h2 class="section-title">學歷與經歷</h2>
+      </div>
+    </div>
+    <div class="resume-grid">
+      <div class="resume-col reveal">
+        <h3 class="about-subhead">學歷</h3>
+        <div id="resume-education"></div>
+      </div>
+      <div class="resume-col reveal">
+        <h3 class="about-subhead">工作經歷</h3>
+        <div id="resume-experience"></div>
+      </div>
+    </div>
   </div>
 </section>
 

@@ -66,6 +66,14 @@ function renderAbout(about) {
     .map((t) => `<span class="tag">${escapeHtml(t.tag ?? t)}</span>`)
     .join("");
 
+  copyEl.innerHTML = `
+    <p class="lead reveal">「${escapeHtmlWithBreaks(about.quote || "")}」</p>
+    ${paragraphsHtml}
+    <div class="about-tags reveal">${tagsHtml}</div>
+  `;
+}
+
+function renderResume(about) {
   const educationHtml = (about.education || []).map((e) => `
     <div class="edu-item">
       <div class="edu-item-head">
@@ -90,13 +98,8 @@ function renderAbout(about) {
     </div>
   `).join("");
 
-  copyEl.innerHTML = `
-    <p class="lead reveal">「${escapeHtmlWithBreaks(about.quote || "")}」</p>
-    ${paragraphsHtml}
-    <div class="about-tags reveal">${tagsHtml}</div>
-    ${educationHtml ? `<div class="about-subsection reveal"><h3 class="about-subhead">學歷</h3>${educationHtml}</div>` : ""}
-    ${experienceHtml ? `<div class="about-subsection reveal"><h3 class="about-subhead">工作經歷</h3>${experienceHtml}</div>` : ""}
-  `;
+  document.getElementById("resume-education").innerHTML = educationHtml;
+  document.getElementById("resume-experience").innerHTML = experienceHtml;
 }
 
 function renderFooter(footer) {
@@ -242,6 +245,7 @@ async function init() {
   applyTheme(theme);
   renderHero(hero);
   renderAbout(about);
+  renderResume(about);
   renderFooter(footer);
   renderWorks(works);
 

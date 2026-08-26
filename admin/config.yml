@@ -144,15 +144,17 @@ collections:
       - label: "作品類型"
         name: "type"
         widget: "select"
-        hint: "決定這個作品要怎麼呈現：IG 貼文嵌入 / 上傳圖片 / 影片連結 / PDF 檔案 / 外部連結"
+        hint: "決定這個作品要怎麼呈現：IG 貼文嵌入 / Facebook 貼文或短影音嵌入 / 上傳圖片 / 影片連結 / PDF 檔案 / 外部連結"
         options:
           - { label: "Instagram 貼文嵌入", value: "instagram" }
+          - { label: "Facebook 貼文/短影音嵌入", value: "facebook" }
           - { label: "上傳圖片", value: "image" }
           - { label: "影片連結（YouTube/Vimeo 等）", value: "video" }
           - { label: "PDF 檔案", value: "pdf" }
           - { label: "外部連結", value: "link" }
-      - { label: "封面縮圖（選填，不填則顯示預設樣式；IG 貼文建議填寫，可自行截圖上傳）", name: "coverImage", widget: "image", required: false }
-      - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫" }
+      - { label: "封面縮圖（選填；有填的話會優先顯示這張圖，而不是自動嵌入）", name: "coverImage", widget: "image", required: false }
+      - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫，網格上會自動顯示官方嵌入元件（可滑動/播放），不需要另外準備封面圖" }
+      - { label: "Facebook 貼文/短影音網址", name: "facebookUrl", widget: "string", required: false, hint: "類型選 Facebook 貼文/短影音嵌入時填寫，同樣會自動顯示官方嵌入元件" }
       - { label: "圖片上傳", name: "image", widget: "image", required: false, hint: "類型選上傳圖片時填寫" }
       - { label: "影片/連結網址", name: "linkUrl", widget: "string", required: false }
       - { label: "PDF 檔案", name: "pdfFile", widget: "file", required: false }

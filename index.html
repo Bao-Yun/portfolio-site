@@ -154,6 +154,8 @@
     background:var(--color-paper-alt);
   }
   .work-media img, .work-media iframe { width:100%; height:100%; object-fit:cover; border:0; }
+  .work-media.has-embed { aspect-ratio:auto; display:flex; justify-content:center; background:var(--color-paper); cursor:auto; }
+  .work-media.has-embed iframe { width:100%; }
   .work-media .ph {
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     flex-direction:column; gap:10px;
@@ -258,6 +260,8 @@
 </style>
 </head>
 <body>
+
+<div id="fb-root"></div>
 
 <header class="nav">
   <div class="nav-inner">

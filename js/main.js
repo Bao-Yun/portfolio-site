@@ -132,35 +132,85 @@ function videoEmbedUrl(url) {
   return null;
 }
 
+let igEmbedRequested = false;
+function ensureInstagramEmbed() {
+  if (igEmbedRequested) {
+    window.instgrm?.Embeds.process();
+    return;
+  }
+  igEmbedRequested = true;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://www.instagram.com/embed.js";
+  document.body.appendChild(script);
+}
+
+let fbEmbedRequested = false;
+function ensureFacebookEmbed() {
+  if (window.FB) {
+    window.FB.XFBML.parse();
+    return;
+  }
+  if (fbEmbedRequested) return;
+  fbEmbedRequested = true;
+  const script = document.createElement("script");
+  script.async = true;
+  script.crossOrigin = "anonymous";
+  script.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0";
+  document.body.appendChild(script);
+}
+
+// Media that provides its own official embed widget (live, interactive — swipeable/playable)
+// instead of a static cover: no cover image to fetch or upload, just the post/video URL.
 function workMediaHtml(work) {
   if (work.coverImage) {
-    return `<img src="${escapeHtml(work.coverImage)}" alt="${escapeHtml(work.title)}" loading="lazy">`;
+    return { html: `<img src="${escapeHtml(work.coverImage)}" alt="${escapeHtml(work.title)}" loading="lazy">`, hasEmbed: false };
+  }
+  if (work.type === "instagram" && work.instagramUrl) {
+    return {
+      html: `<blockquote class="instagram-media" data-instgrm-permalink="${escapeHtml(work.instagramUrl)}" data-instgrm-version="14"></blockquote>`,
+      hasEmbed: true,
+      embedKind: "instagram",
+    };
+  }
+  if (work.type === "facebook" && work.facebookUrl) {
+    const isVideo = /\/(videos|reel)\//.test(work.facebookUrl);
+    return {
+      html: `<div class="${isVideo ? "fb-video" : "fb-post"}" data-href="${escapeHtml(work.facebookUrl)}" data-width="380"></div>`,
+      hasEmbed: true,
+      embedKind: "facebook",
+    };
   }
   if (work.type === "image" && work.image) {
-    return `<img src="${escapeHtml(work.image)}" alt="${escapeHtml(work.title)}" loading="lazy">`;
+    return { html: `<img src="${escapeHtml(work.image)}" alt="${escapeHtml(work.title)}" loading="lazy">`, hasEmbed: false };
   }
   if (work.type === "video" && work.linkUrl) {
     const embed = videoEmbedUrl(work.linkUrl);
-    if (embed) return `<iframe src="${escapeHtml(embed)}" loading="lazy" allowfullscreen></iframe>`;
+    if (embed) return { html: `<iframe src="${escapeHtml(embed)}" loading="lazy" allowfullscreen></iframe>`, hasEmbed: false };
   }
   const markLabel = {
     instagram: "IG 貼文嵌入區",
+    facebook: "Facebook 嵌入區",
     video: "影片連結",
     pdf: "PDF 檔案",
     link: "外部連結",
   }[work.type] || "作品";
-  return `<div class="ph"><div class="ph-icon"></div><span class="ph-mark">${escapeHtml(markLabel)}</span></div>`;
+  return { html: `<div class="ph"><div class="ph-icon"></div><span class="ph-mark">${escapeHtml(markLabel)}</span></div>`, hasEmbed: false };
 }
 
 const WORKS_VISIBLE_COUNT = 3;
 
 function renderWorks(works) {
   const gridEl = document.getElementById("works-grid");
-  gridEl.innerHTML = works.map((work, i) => `
+  const mediaByIndex = works.map(workMediaHtml);
+
+  gridEl.innerHTML = works.map((work, i) => {
+    const media = mediaByIndex[i];
+    return `
     <div class="work-card${i >= WORKS_VISIBLE_COUNT ? " is-hidden" : ""}" data-work-index="${i}">
-      <div class="work-media">
-        ${workMediaHtml(work)}
-        <div class="work-overlay"><span>查看完整案例 →</span></div>
+      <div class="work-media${media.hasEmbed ? " has-embed" : ""}">
+        ${media.html}
+        ${media.hasEmbed ? "" : `<div class="work-overlay"><span>查看完整案例 →</span></div>`}
       </div>
       <div class="work-label">
         <div class="work-code">CASE / ${String(i + 1).padStart(2, "0")} — ${escapeHtml(work.category || "")}</div>
@@ -168,11 +218,22 @@ function renderWorks(works) {
         <div class="work-result">${escapeHtml(work.result || "")}</div>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 
   gridEl.querySelectorAll(".work-card").forEach((card) => {
-    card.addEventListener("click", () => openWorkDetail(works[Number(card.dataset.workIndex)]));
+    const i = Number(card.dataset.workIndex);
+    const work = works[i];
+    if (mediaByIndex[i].hasEmbed) {
+      // Let the live embed (swipe, play, etc.) own the media area; only the label opens the modal.
+      card.querySelector(".work-label").addEventListener("click", () => openWorkDetail(work));
+    } else {
+      card.addEventListener("click", () => openWorkDetail(work));
+    }
   });
+
+  if (mediaByIndex.some((m) => m.embedKind === "instagram")) ensureInstagramEmbed();
+  if (mediaByIndex.some((m) => m.embedKind === "facebook")) ensureFacebookEmbed();
 
   const moreWrap = document.getElementById("works-more-wrap");
   const moreBtn = document.getElementById("works-more-btn");
@@ -190,19 +251,7 @@ function openWorkDetail(work) {
   const content = document.getElementById("work-detail-content");
 
   let bodyHtml = "";
-  if (work.type === "instagram" && work.instagramUrl) {
-    bodyHtml = `
-      <blockquote class="instagram-media" data-instgrm-permalink="${escapeHtml(work.instagramUrl)}"></blockquote>
-    `;
-    if (!window.instgrm) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = "https://www.instagram.com/embed.js";
-      document.body.appendChild(script);
-    } else {
-      setTimeout(() => window.instgrm.Embeds.process(), 0);
-    }
-  } else if (work.type === "pdf" && work.pdfFile) {
+  if (work.type === "pdf" && work.pdfFile) {
     bodyHtml = `<p><a class="footer-link" style="color:var(--color-ink);border-color:var(--color-ink);" href="${escapeHtml(work.pdfFile)}" target="_blank" rel="noopener">開啟 PDF ↗</a></p>`;
   } else if (work.type === "link" && work.linkUrl) {
     bodyHtml = `<p><a class="footer-link" style="color:var(--color-ink);border-color:var(--color-ink);" href="${escapeHtml(work.linkUrl)}" target="_blank" rel="noopener">前往連結 ↗</a></p>`;

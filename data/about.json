@@ -1,10 +1,19 @@
 {
-  "portrait": "",
+  "portrait": "/static/images/uploads/img_8309.jpg",
   "quote": "期待運用創意與執行力，\n為品牌創造更多價值與影響力。",
   "paragraphs": [
     "目前就讀於中山大學行銷傳播管理研究所，擁有社群行銷、內容策劃與品牌溝通相關經驗，對數位內容創作、品牌故事傳遞及公共議題溝通充滿熱情。",
     "過去曾參與科技公司、出版社、新創團隊及藝文場館等多元領域實習，累積社群經營、數位內容製作、活動企劃與專案執行經驗。於衛武營國家藝術文化中心實習期間，參與藝文活動宣傳與推廣，負責社群內容規劃、文案撰寫、短影音製作及活動執行，培養內容行銷、專案管理與跨部門溝通能力。",
     "同時，我也是一位 Podcast 製作人，持續透過聲音內容推動議題討論與創新傳播。個性積極主動、樂於學習，喜歡透過內容與受眾建立連結。"
   ],
-  "tags": ["Content Creation", "Social Media Management", "Video Editing (Reels)", "Audio Editing", "Canva", "Meta Business Suite", "Adobe Audition", "CapCut"]
+  "tags": [
+    "Content Creation",
+    "Social Media Management",
+    "Video Editing (Reels)",
+    "Audio Editing",
+    "Canva",
+    "Meta Business Suite",
+    "Adobe Audition",
+    "CapCut"
+  ]
 }

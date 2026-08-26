@@ -1,0 +1,123 @@
+backend:
+  name: github
+  repo: Bao-Yun/portfolio-site
+  branch: main
+  base_url: https://TODO.workers.dev   # TODO: 換成你在 Cloudflare Workers 上部署的 Decap OAuth proxy 網址
+  auth_endpoint: auth
+
+# 存放編輯內容的資料夾（正式站的 HTML/JS 會讀取這裡的檔案來渲染畫面）
+media_folder: "static/images/uploads"
+public_folder: "/static/images/uploads"
+
+collections:
+
+  # ────────────────────────────────
+  # 1. 網站設定（色彩主題、首頁、關於我、服務、頁尾）
+  # ────────────────────────────────
+  - name: "settings"
+    label: "網站設定"
+    files:
+
+      - name: "theme"
+        label: "🎨 色彩主題"
+        file: "data/theme.json"
+        fields:
+          - { label: "主色（近黑，標題/文字）", name: "ink", widget: "color" }
+          - { label: "背景色（主要）", name: "paper", widget: "color" }
+          - { label: "背景色（區塊交替用）", name: "paperAlt", widget: "color" }
+          - { label: "腔調色 1（如莫蘭迪綠）", name: "sage", widget: "color" }
+          - { label: "腔調色 1 深版（hover/文字用）", name: "sageDeep", widget: "color" }
+          - { label: "腔調色 2（如霧粉）", name: "rose", widget: "color" }
+          - { label: "腔調色 2 深版", name: "roseDeep", widget: "color" }
+          - { label: "邊線/分隔線顏色", name: "stone", widget: "color" }
+          - { label: "輔助文字顏色（說明文字）", name: "muted", widget: "color" }
+
+      - name: "hero"
+        label: "🏠 首頁主視覺"
+        file: "data/hero.json"
+        fields:
+          - { label: "小標籤（Eyebrow）", name: "eyebrow", widget: "string" }
+          - { label: "主標題", name: "title", widget: "string" }
+          - { label: "主標題中要 Highlight 的字詞", name: "titleHighlight", widget: "string" }
+          - { label: "副標說明", name: "subtitle", widget: "text" }
+          - label: "數據列（右側 3 項數字）"
+            name: "stats"
+            widget: "list"
+            fields:
+              - { label: "數字", name: "number", widget: "string" }
+              - { label: "說明文字", name: "label", widget: "string" }
+
+      - name: "about"
+        label: "🙋 關於我"
+        file: "data/about.json"
+        fields:
+          - { label: "個人照片", name: "portrait", widget: "image", required: false }
+          - { label: "引言 / 一句話理念", name: "quote", widget: "text" }
+          - label: "自我介紹段落"
+            name: "paragraphs"
+            widget: "list"
+            field: { label: "段落內容", name: "text", widget: "text" }
+          - label: "技能標籤"
+            name: "tags"
+            widget: "list"
+            field: { label: "標籤文字", name: "tag", widget: "string" }
+
+      - name: "services"
+        label: "🛠️ 服務項目"
+        file: "data/services.json"
+        fields:
+          - label: "服務清單"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "服務名稱", name: "title", widget: "string" }
+              - { label: "服務說明", name: "description", widget: "text" }
+
+      - name: "footer"
+        label: "📮 頁尾 / 聯絡方式"
+        file: "data/footer.json"
+        fields:
+          - { label: "小標籤", name: "eyebrow", widget: "string" }
+          - { label: "邀約合作標題", name: "title", widget: "text" }
+          - { label: "Email", name: "email", widget: "string" }
+          - label: "社群連結"
+            name: "socialLinks"
+            widget: "list"
+            fields:
+              - { label: "平台名稱", name: "label", widget: "string" }
+              - { label: "連結網址", name: "url", widget: "string" }
+
+  # ────────────────────────────────
+  # 2. 作品集（不限 IG 圖文，可自由選擇作品類型）
+  # ────────────────────────────────
+  - name: "works"
+    label: "🖼️ 作品集"
+    folder: "data/works"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    fields:
+      - { label: "作品標題", name: "title", widget: "string" }
+      - label: "分類"
+        name: "category"
+        widget: "select"
+        options: ["美妝", "餐飲", "3C", "生活風格", "服飾", "其他"]
+      - label: "作品類型"
+        name: "type"
+        widget: "select"
+        hint: "決定這個作品要怎麼呈現：IG 貼文嵌入 / 上傳圖片 / 影片連結 / PDF 檔案 / 外部連結"
+        options:
+          - { label: "Instagram 貼文嵌入", value: "instagram" }
+          - { label: "上傳圖片", value: "image" }
+          - { label: "影片連結（YouTube/Vimeo 等）", value: "video" }
+          - { label: "PDF 檔案", value: "pdf" }
+          - { label: "外部連結", value: "link" }
+      - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫" }
+      - { label: "圖片上傳", name: "image", widget: "image", required: false, hint: "類型選上傳圖片時填寫" }
+      - { label: "影片/連結網址", name: "linkUrl", widget: "string", required: false }
+      - { label: "PDF 檔案", name: "pdfFile", widget: "file", required: false }
+      - { label: "目標（這個案子想達成什麼）", name: "goal", widget: "text", required: false }
+      - { label: "我的角色", name: "role", widget: "string", required: false }
+      - { label: "成效說明（如：互動率 +68%）", name: "result", widget: "string", required: false }
+      - { label: "詳細案例說明", name: "description", widget: "markdown", required: false }
+      - { label: "排序（數字越小越前面）", name: "order", widget: "number", default: 0 }

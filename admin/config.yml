@@ -2,7 +2,7 @@ backend:
   name: github
   repo: Bao-Yun/portfolio-site
   branch: main
-  base_url: https://TODO.workers.dev   # TODO: 換成你在 Cloudflare Workers 上部署的 Decap OAuth proxy 網址
+  base_url: https://portfolio-oauth.baoyun612132.workers.dev
   auth_endpoint: auth
 
 # 存放編輯內容的資料夾（正式站的 HTML/JS 會讀取這裡的檔案來渲染畫面）

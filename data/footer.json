@@ -1,9 +1,15 @@
 {
   "eyebrow": "Let's Work Together",
-  "title": "有品牌內容想聊聊嗎？我很樂意聽聽你的想法。",
+  "title": "有品牌內容想聊聊嗎？\n我很樂意聽聽你的想法。",
   "email": "hello@example.com",
   "socialLinks": [
-    { "label": "Instagram ↗", "url": "#" },
-    { "label": "LinkedIn ↗", "url": "#" }
+    {
+      "label": "Instagram ↗",
+      "url": "#"
+    },
+    {
+      "label": "LinkedIn ↗",
+      "url": "#"
+    }
   ]
 }

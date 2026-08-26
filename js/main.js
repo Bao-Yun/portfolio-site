@@ -152,10 +152,12 @@ function workMediaHtml(work) {
   return `<div class="ph"><div class="ph-icon"></div><span class="ph-mark">${escapeHtml(markLabel)}</span></div>`;
 }
 
+const WORKS_VISIBLE_COUNT = 3;
+
 function renderWorks(works) {
   const gridEl = document.getElementById("works-grid");
   gridEl.innerHTML = works.map((work, i) => `
-    <div class="work-card" data-work-index="${i}">
+    <div class="work-card${i >= WORKS_VISIBLE_COUNT ? " is-hidden" : ""}" data-work-index="${i}">
       <div class="work-media">
         ${workMediaHtml(work)}
         <div class="work-overlay"><span>查看完整案例 →</span></div>
@@ -171,6 +173,16 @@ function renderWorks(works) {
   gridEl.querySelectorAll(".work-card").forEach((card) => {
     card.addEventListener("click", () => openWorkDetail(works[Number(card.dataset.workIndex)]));
   });
+
+  const moreWrap = document.getElementById("works-more-wrap");
+  const moreBtn = document.getElementById("works-more-btn");
+  if (works.length > WORKS_VISIBLE_COUNT) {
+    moreWrap.hidden = false;
+    moreBtn.addEventListener("click", () => {
+      gridEl.querySelectorAll(".work-card.is-hidden").forEach((card) => card.classList.remove("is-hidden"));
+      moreWrap.hidden = true;
+    });
+  }
 }
 
 function openWorkDetail(work) {

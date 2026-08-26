@@ -181,6 +181,16 @@
     display:flex; align-items:center; gap:8px;
   }
 
+  .work-card.is-hidden { display:none; }
+
+  .works-more-wrap { display:flex; justify-content:center; padding-top:40px; }
+  .works-more-btn {
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:0.04em;
+    border:1px solid var(--color-ink); padding:12px 28px; background:none; color:inherit; cursor:pointer;
+    transition:background .3s var(--ease), color .3s var(--ease);
+  }
+  .works-more-btn:hover { background:var(--color-ink); color:var(--color-paper); }
+
   .work-label { padding:20px 22px 24px; }
   .work-code { font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.08em; color:var(--color-sage-deep); }
   .work-title { font-family:var(--font-display); font-weight:600; font-size:19px; margin:8px 0 6px; }
@@ -324,6 +334,9 @@
 
   <div class="wrap" style="padding:0;">
     <div class="grid-gallery reveal" id="works-grid"></div>
+  </div>
+  <div class="wrap works-more-wrap" id="works-more-wrap" hidden>
+    <button class="works-more-btn" id="works-more-btn">查看更多作品 ↓</button>
   </div>
 </section>
 

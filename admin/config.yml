@@ -7,7 +7,7 @@ backend:
 
 # 存放編輯內容的資料夾（正式站的 HTML/JS 會讀取這裡的檔案來渲染畫面）
 media_folder: "static/images/uploads"
-public_folder: "/static/images/uploads"
+public_folder: "static/images/uploads"
 
 collections:
 

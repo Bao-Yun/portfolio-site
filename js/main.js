@@ -167,10 +167,15 @@ function workMediaHtml(work) {
     return { html: `<img src="${escapeHtml(work.coverImage)}" alt="${escapeHtml(work.title)}" loading="lazy">`, hasEmbed: false };
   }
   if (work.type === "instagram" && work.instagramUrl) {
+    // Instagram's embed.js is meant to resize the iframe to fit via a postMessage handshake,
+    // but that resize reliably fails to fire for Reels (works fine for photo/carousel posts) —
+    // so Reels get pinned to a 9:16 height instead of trusting the (broken) auto-resize.
+    const isReel = /\/(reel|tv)\//.test(work.instagramUrl);
     return {
       html: `<blockquote class="instagram-media" data-instgrm-permalink="${escapeHtml(work.instagramUrl)}" data-instgrm-version="14"></blockquote>`,
       hasEmbed: true,
       embedKind: "instagram",
+      isReel,
     };
   }
   if (work.type === "facebook" && work.facebookUrl) {
@@ -179,6 +184,7 @@ function workMediaHtml(work) {
       html: `<div class="${isVideo ? "fb-video" : "fb-post"}" data-href="${escapeHtml(work.facebookUrl)}" data-width="380"></div>`,
       hasEmbed: true,
       embedKind: "facebook",
+      isReel: isVideo,
     };
   }
   if (work.type === "image" && work.image) {
@@ -208,7 +214,7 @@ function renderWorks(works) {
     const media = mediaByIndex[i];
     return `
     <div class="work-card${i >= WORKS_VISIBLE_COUNT ? " is-hidden" : ""}" data-work-index="${i}">
-      <div class="work-media${media.hasEmbed ? " has-embed" : ""}">
+      <div class="work-media${media.hasEmbed ? " has-embed" : ""}${media.isReel ? " is-reel" : ""}">
         ${media.html}
         ${media.hasEmbed ? "" : `<div class="work-overlay"><span>查看完整案例 →</span></div>`}
       </div>

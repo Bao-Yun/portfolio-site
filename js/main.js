@@ -1,9 +1,16 @@
 const THEME_KEYS = ["ink", "paper", "paperAlt", "sage", "sageDeep", "roseDeep", "rose", "stone", "muted"];
 
+const FONT_SIZE_MAP = { small: "0.7em", medium: "1em", large: "1.3em", xlarge: "1.6em" };
+const FONT_FAMILY_MAP = { display: "var(--font-display)", body: "var(--font-body)", mono: "var(--font-mono)" };
+
 function escapeHtml(str) {
   return String(str ?? "").replace(/[&<>"']/g, (c) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   }[c]));
+}
+
+function escapeHtmlWithBreaks(str) {
+  return escapeHtml(str).replace(/\n/g, "<br>");
 }
 
 function applyTheme(theme) {
@@ -16,13 +23,23 @@ function applyTheme(theme) {
   }
 }
 
+function renderTitleSegments(segments) {
+  return (segments || []).map((seg) => {
+    const styles = [];
+    if (seg.color) styles.push(`color:${seg.color}`);
+    if (seg.fontSize && FONT_SIZE_MAP[seg.fontSize]) styles.push(`font-size:${FONT_SIZE_MAP[seg.fontSize]}`);
+    if (seg.fontFamily && FONT_FAMILY_MAP[seg.fontFamily]) styles.push(`font-family:${FONT_FAMILY_MAP[seg.fontFamily]}`);
+    const styleAttr = styles.length ? ` style="${styles.join(";")}"` : "";
+    const tag = seg.highlight ? "em" : "span";
+    const html = `<${tag}${styleAttr}>${escapeHtml(seg.text)}</${tag}>`;
+    return seg.lineBreakAfter ? html + "<br>" : html;
+  }).join("");
+}
+
 function renderHero(hero) {
   document.getElementById("hero-eyebrow").textContent = hero.eyebrow || "";
-  const titleEl = document.getElementById("hero-title");
-  const title = escapeHtml(hero.title || "");
-  const highlight = hero.titleHighlight ? escapeHtml(hero.titleHighlight) : "";
-  titleEl.innerHTML = highlight ? `${title}<em>${highlight}</em>` : title;
-  document.getElementById("hero-subtitle").textContent = hero.subtitle || "";
+  document.getElementById("hero-title").innerHTML = renderTitleSegments(hero.titleSegments);
+  document.getElementById("hero-subtitle").innerHTML = escapeHtmlWithBreaks(hero.subtitle || "");
 
   const statsEl = document.getElementById("hero-stats");
   statsEl.innerHTML = (hero.stats || []).map((s) => `
@@ -43,33 +60,48 @@ function renderAbout(about) {
 
   const copyEl = document.getElementById("about-copy");
   const paragraphsHtml = (about.paragraphs || [])
-    .map((p) => `<p class="reveal">${escapeHtml(p.text ?? p)}</p>`)
+    .map((p) => `<p class="reveal">${escapeHtmlWithBreaks(p.text ?? p)}</p>`)
     .join("");
   const tagsHtml = (about.tags || [])
     .map((t) => `<span class="tag">${escapeHtml(t.tag ?? t)}</span>`)
     .join("");
 
-  copyEl.innerHTML = `
-    <p class="lead reveal">「${escapeHtml(about.quote || "")}」</p>
-    ${paragraphsHtml}
-    <div class="about-tags reveal">${tagsHtml}</div>
-  `;
-}
-
-function renderServices(services) {
-  const gridEl = document.getElementById("services-grid");
-  gridEl.innerHTML = (services.items || []).map((item) => `
-    <div class="service-item">
-      <div class="service-dot"></div>
-      <h3>${escapeHtml(item.title)}</h3>
-      <p>${escapeHtml(item.description)}</p>
+  const educationHtml = (about.education || []).map((e) => `
+    <div class="edu-item">
+      <div class="edu-item-head">
+        <span class="edu-school">${escapeHtml(e.school || "")}</span>
+        <span class="edu-period">${escapeHtml(e.period || "")}</span>
+      </div>
+      <div class="edu-degree">${escapeHtml(e.degree || "")}</div>
+      ${e.description ? `<p class="edu-desc">${escapeHtmlWithBreaks(e.description)}</p>` : ""}
     </div>
   `).join("");
+
+  const experienceHtml = (about.experience || []).map((e) => `
+    <div class="exp-item">
+      <div class="exp-item-head">
+        <span class="exp-company">${escapeHtml(e.company || "")}</span>
+        <span class="exp-period">${escapeHtml(e.period || "")}</span>
+      </div>
+      <div class="exp-role">${escapeHtml(e.role || "")}</div>
+      ${(e.highlights || []).length ? `<ul class="exp-highlights">${
+        e.highlights.map((h) => `<li>${escapeHtml(h.text ?? h)}</li>`).join("")
+      }</ul>` : ""}
+    </div>
+  `).join("");
+
+  copyEl.innerHTML = `
+    <p class="lead reveal">「${escapeHtmlWithBreaks(about.quote || "")}」</p>
+    ${paragraphsHtml}
+    <div class="about-tags reveal">${tagsHtml}</div>
+    ${educationHtml ? `<div class="about-subsection reveal"><h3 class="about-subhead">學歷</h3>${educationHtml}</div>` : ""}
+    ${experienceHtml ? `<div class="about-subsection reveal"><h3 class="about-subhead">工作經歷</h3>${experienceHtml}</div>` : ""}
+  `;
 }
 
 function renderFooter(footer) {
   document.getElementById("footer-eyebrow").textContent = footer.eyebrow || "";
-  document.getElementById("footer-title").textContent = footer.title || "";
+  document.getElementById("footer-title").innerHTML = escapeHtmlWithBreaks(footer.title || "");
 
   const linksEl = document.getElementById("footer-links");
   const emailLink = footer.email
@@ -95,6 +127,9 @@ function videoEmbedUrl(url) {
 }
 
 function workMediaHtml(work) {
+  if (work.coverImage) {
+    return `<img src="${escapeHtml(work.coverImage)}" alt="${escapeHtml(work.title)}" loading="lazy">`;
+  }
   if (work.type === "image" && work.image) {
     return `<img src="${escapeHtml(work.image)}" alt="${escapeHtml(work.title)}" loading="lazy">`;
   }
@@ -193,11 +228,10 @@ async function fetchJson(path) {
 }
 
 async function init() {
-  const [theme, hero, about, services, footer, works] = await Promise.all([
+  const [theme, hero, about, footer, works] = await Promise.all([
     fetchJson("data/theme.json"),
     fetchJson("data/hero.json"),
     fetchJson("data/about.json"),
-    fetchJson("data/services.json"),
     fetchJson("data/footer.json"),
     fetchJson("data/works-index.json").catch(() => []),
   ]);
@@ -205,7 +239,6 @@ async function init() {
   applyTheme(theme);
   renderHero(hero);
   renderAbout(about);
-  renderServices(services);
   renderFooter(footer);
   renderWorks(works);
 

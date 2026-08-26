@@ -1,10 +1,13 @@
 {
-  "eyebrow": "Social Content & Campaign",
-  "title": "用一張圖文，說完一個",
-  "titleHighlight": "品牌故事",
-  "subtitle": "我是［你的名字］，專注於社群圖文企劃與內容行銷。過去三年間協助品牌把抽象的行銷目標，轉化成使用者願意停下來看、願意分享的一篇 IG 貼文。",
+  "eyebrow": "Social Content Planning",
+  "titleSegments": [
+    { "text": "用一份作品，", "highlight": false, "lineBreakAfter": true },
+    { "text": "說明我能為團隊", "highlight": false, "lineBreakAfter": false },
+    { "text": "帶來的價值", "highlight": true, "lineBreakAfter": false }
+  ],
+  "subtitle": "我是張寶云，主修社群圖文企劃與內容行銷。\n過去三年間累積了從企劃、文案到成效檢討的完整實作經驗，\n希望能加入一個團隊，持續把想法做成使用者願意停下來看的內容。",
   "stats": [
-    { "number": "32+", "label": "合作品牌 / 專案數" },
+    { "number": "32+", "label": "參與專案數" },
     { "number": "4.6M", "label": "累積觸及人次" },
     { "number": "3年", "label": "社群內容企劃經驗" }
   ]

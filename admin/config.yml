@@ -12,7 +12,7 @@ public_folder: "/static/images/uploads"
 collections:
 
   # ────────────────────────────────
-  # 1. 網站設定（色彩主題、首頁、關於我、服務、頁尾）
+  # 1. 網站設定（色彩主題、首頁、關於我、頁尾）
   # ────────────────────────────────
   - name: "settings"
     label: "網站設定"
@@ -37,9 +37,34 @@ collections:
         file: "data/hero.json"
         fields:
           - { label: "小標籤（Eyebrow）", name: "eyebrow", widget: "string" }
-          - { label: "主標題", name: "title", widget: "string" }
-          - { label: "主標題中要 Highlight 的字詞", name: "titleHighlight", widget: "string" }
-          - { label: "副標說明", name: "subtitle", widget: "text" }
+          - label: "主標題（依序排列的文字段落，可自由控制斷行、Highlight 位置、字體大小/顏色/字型）"
+            name: "titleSegments"
+            widget: "list"
+            fields:
+              - { label: "文字內容", name: "text", widget: "string" }
+              - { label: "套用 Highlight 底色", name: "highlight", widget: "boolean", default: false }
+              - { label: "這段之後換行", name: "lineBreakAfter", widget: "boolean", default: false }
+              - { label: "文字顏色（選填，覆蓋預設）", name: "color", widget: "color", required: false }
+              - label: "字體大小（選填）"
+                name: "fontSize"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "預設", value: "" }
+                  - { label: "小", value: "small" }
+                  - { label: "中", value: "medium" }
+                  - { label: "大", value: "large" }
+                  - { label: "特大", value: "xlarge" }
+              - label: "字型（選填）"
+                name: "fontFamily"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "預設", value: "" }
+                  - { label: "標題襯線體", value: "display" }
+                  - { label: "內文黑體", value: "body" }
+                  - { label: "等寬數字體", value: "mono" }
+          - { label: "副標說明（按 Enter 可自由換行）", name: "subtitle", widget: "text" }
           - label: "數據列（右側 3 項數字）"
             name: "stats"
             widget: "list"
@@ -52,33 +77,41 @@ collections:
         file: "data/about.json"
         fields:
           - { label: "個人照片", name: "portrait", widget: "image", required: false }
-          - { label: "引言 / 一句話理念", name: "quote", widget: "text" }
+          - { label: "引言 / 一句話理念（按 Enter 可自由換行）", name: "quote", widget: "text" }
           - label: "自我介紹段落"
             name: "paragraphs"
             widget: "list"
-            field: { label: "段落內容", name: "text", widget: "text" }
-          - label: "技能標籤"
+            field: { label: "段落內容（按 Enter 可自由換行）", name: "text", widget: "text" }
+          - label: "核心技能"
             name: "tags"
             widget: "list"
-            field: { label: "標籤文字", name: "tag", widget: "string" }
-
-      - name: "services"
-        label: "🛠️ 服務項目"
-        file: "data/services.json"
-        fields:
-          - label: "服務清單"
-            name: "items"
+            field: { label: "技能文字", name: "tag", widget: "string" }
+          - label: "學歷"
+            name: "education"
             widget: "list"
             fields:
-              - { label: "服務名稱", name: "title", widget: "string" }
-              - { label: "服務說明", name: "description", widget: "text" }
+              - { label: "學校", name: "school", widget: "string" }
+              - { label: "科系 / 學位", name: "degree", widget: "string" }
+              - { label: "期間（如：2018 - 2022）", name: "period", widget: "string" }
+              - { label: "補充說明", name: "description", widget: "text", required: false }
+          - label: "工作經歷"
+            name: "experience"
+            widget: "list"
+            fields:
+              - { label: "公司 / 單位", name: "company", widget: "string" }
+              - { label: "職稱", name: "role", widget: "string" }
+              - { label: "期間（如：2023 - 至今）", name: "period", widget: "string" }
+              - label: "工作內容 / 成果（條列）"
+                name: "highlights"
+                widget: "list"
+                field: { label: "內容", name: "text", widget: "string" }
 
       - name: "footer"
         label: "📮 頁尾 / 聯絡方式"
         file: "data/footer.json"
         fields:
           - { label: "小標籤", name: "eyebrow", widget: "string" }
-          - { label: "邀約合作標題", name: "title", widget: "text" }
+          - { label: "邀約聯絡標題（按 Enter 可自由換行）", name: "title", widget: "text" }
           - { label: "Email", name: "email", widget: "string" }
           - label: "社群連結"
             name: "socialLinks"
@@ -112,6 +145,7 @@ collections:
           - { label: "影片連結（YouTube/Vimeo 等）", value: "video" }
           - { label: "PDF 檔案", value: "pdf" }
           - { label: "外部連結", value: "link" }
+      - { label: "封面縮圖（選填，不填則顯示預設樣式；IG 貼文建議填寫，可自行截圖上傳）", name: "coverImage", widget: "image", required: false }
       - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫" }
       - { label: "圖片上傳", name: "image", widget: "image", required: false, hint: "類型選上傳圖片時填寫" }
       - { label: "影片/連結網址", name: "linkUrl", widget: "string", required: false }

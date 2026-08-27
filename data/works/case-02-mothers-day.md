@@ -1,6 +1,7 @@
 ---
 title: "Colega AI 客樂加 社群經營"
 category: "其他"
+brand: "Colega AI 客樂加"
 type: "instagram"
 instagramUrl: ""
 coverImage: ""

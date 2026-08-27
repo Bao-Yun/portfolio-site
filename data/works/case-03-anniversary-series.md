@@ -1,6 +1,7 @@
 ---
 title: Tatler Taiwan 社群內容編輯
 category: 生活風格
+brand: "Tatler Taiwan"
 type: instagram
 coverImage: ""
 instagramUrl: https://www.instagram.com/p/C7FzF-3PU9b/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==

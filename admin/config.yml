@@ -134,6 +134,36 @@ collections:
               - { label: "平台名稱", name: "label", widget: "string" }
               - { label: "連結網址", name: "url", widget: "string" }
 
+      - name: "featured"
+        label: "⭐ 精選作品（首頁預設顯示，最多 3 篇）"
+        file: "data/featured.json"
+        fields:
+          - label: "精選作品（最多 3 篇）"
+            name: "works"
+            widget: "list"
+            max: 3
+            hint: "最多只能選 3 篇，會依照這裡排列的順序顯示在首頁。超過 3 篇會在儲存/發布時擋下來並顯示提示，請刪減到 3 篇以內。清空的話首頁會自動退回顯示最新的 3 篇作品。"
+            field:
+              widget: "relation"
+              name: "work"
+              collection: "works"
+              search_fields: ["title"]
+              display_fields: ["title"]
+              value_field: "{{slug}}"
+
+  # ────────────────────────────────
+  # 1.5 品牌／公司（讓作品可以歸類到你任職過的公司）
+  # ────────────────────────────────
+  - name: "brands"
+    label: "🏢 品牌／公司"
+    folder: "data/brands"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    fields:
+      - { label: "品牌／公司名稱", name: "name", widget: "string" }
+      - { label: "排序（決定「更多作品」裡公司按鈕的先後順序，數字越小越前面）", name: "order", widget: "number", default: 0 }
+
   # ────────────────────────────────
   # 2. 作品集（不限 IG 圖文，可自由選擇作品類型）
   # ────────────────────────────────
@@ -150,6 +180,14 @@ collections:
         widget: "select"
         default: "其他"
         options: ["美妝", "餐飲", "3C", "生活風格", "服飾", "其他"]
+      - label: "所屬品牌／公司（選填，用來在「更多作品」依公司分類瀏覽）"
+        name: "brand"
+        widget: "relation"
+        collection: "brands"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        required: false
       - label: "作品類型"
         name: "type"
         widget: "select"

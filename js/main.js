@@ -242,33 +242,36 @@ function workMediaHtml(work) {
   return { html: `<div class="ph"><div class="ph-icon"></div><span class="ph-mark">${escapeHtml(markLabel)}</span></div>`, hasEmbed: false };
 }
 
-const WORKS_VISIBLE_COUNT = 3;
-
-function renderWorks(works) {
-  const gridEl = document.getElementById("works-grid");
-  const mediaByIndex = works.map(workMediaHtml);
-
-  gridEl.innerHTML = works.map((work, i) => {
-    const media = mediaByIndex[i];
-    return `
-    <div class="work-card${i >= WORKS_VISIBLE_COUNT ? " is-hidden" : ""}" data-work-index="${i}">
+function workCardHtml(work, index) {
+  const media = workMediaHtml(work);
+  const label = work.brand || work.category || "";
+  const html = `
+    <div class="work-card" data-work-index="${index}">
       <div class="work-media${media.hasEmbed ? " has-embed" : ""}${media.isReel ? " is-reel" : ""}">
         ${media.html}
         ${media.hasEmbed ? "" : `<div class="work-overlay"><span>查看完整案例 →</span></div>`}
       </div>
       <div class="work-label">
-        <div class="work-code">CASE / ${String(i + 1).padStart(2, "0")} — ${escapeHtml(work.category || "")}</div>
+        <div class="work-code">CASE / ${String(index + 1).padStart(2, "0")} — ${escapeHtml(label)}</div>
         <div class="work-title">${escapeHtml(work.title || "")}</div>
         <div class="work-result">${escapeHtml(work.result || "")}</div>
       </div>
     </div>
   `;
-  }).join("");
+  return { media, html };
+}
+
+// Renders one set of work cards into the grid (featured, or a single brand's works —
+// whichever is currently showing). Index/numbering is local to what's shown.
+function renderWorkGrid(worksToShow) {
+  const gridEl = document.getElementById("works-grid");
+  const cards = worksToShow.map((w, i) => workCardHtml(w, i));
+  gridEl.innerHTML = cards.map((c) => c.html).join("");
 
   gridEl.querySelectorAll(".work-card").forEach((card) => {
     const i = Number(card.dataset.workIndex);
-    const work = works[i];
-    if (mediaByIndex[i].hasEmbed) {
+    const work = worksToShow[i];
+    if (cards[i].media.hasEmbed) {
       // Let the live embed (swipe, play, etc.) own the media area; only the label opens the modal.
       card.querySelector(".work-label").addEventListener("click", () => openWorkDetail(work));
     } else {
@@ -276,18 +279,73 @@ function renderWorks(works) {
     }
   });
 
-  if (mediaByIndex.some((m) => m.embedKind === "instagram")) ensureInstagramEmbed();
-  if (mediaByIndex.some((m) => m.embedKind === "facebook")) ensureFacebookEmbed();
+  if (cards.some((c) => c.media.embedKind === "instagram")) ensureInstagramEmbed();
+  if (cards.some((c) => c.media.embedKind === "facebook")) ensureFacebookEmbed();
+}
 
+// Homepage shows a curated "featured" set (up to 3, picked in the CMS) instead of just the
+// first 3 by list order. "查看更多作品" leads to browsing by employer/brand — not a flat
+// reveal-all — since works are organized per company the user worked at. Falls back to
+// the old flat behavior if no work has a brand set yet (nothing to browse by).
+function renderWorks(allWorks, featuredSlugs) {
   const moreWrap = document.getElementById("works-more-wrap");
-  const moreBtn = document.getElementById("works-more-btn");
-  if (works.length > WORKS_VISIBLE_COUNT) {
-    moreWrap.hidden = false;
-    moreBtn.addEventListener("click", () => {
-      gridEl.querySelectorAll(".work-card.is-hidden").forEach((card) => card.classList.remove("is-hidden"));
+
+  const featuredWorks = (featuredSlugs || [])
+    .map((slug) => allWorks.find((w) => w.slug === slug))
+    .filter(Boolean);
+  const initialWorks = featuredWorks.length ? featuredWorks : allWorks.slice(0, 3);
+
+  // Order brands by the earliest `order` among each brand's own works.
+  const brandOrder = new Map();
+  allWorks.forEach((w) => {
+    if (!w.brand) return;
+    const order = w.order ?? 0;
+    if (!brandOrder.has(w.brand) || order < brandOrder.get(w.brand)) brandOrder.set(w.brand, order);
+  });
+  const brands = [...brandOrder.keys()].sort((a, b) => brandOrder.get(a) - brandOrder.get(b));
+
+  function showFeatured() {
+    renderWorkGrid(initialWorks);
+    if (brands.length) {
+      moreWrap.innerHTML = `<button class="works-more-btn" id="works-more-btn">查看更多作品 ↓</button>`;
+      moreWrap.hidden = false;
+      document.getElementById("works-more-btn").addEventListener("click", showBrandPicker);
+    } else if (allWorks.length > initialWorks.length) {
+      // No brand data anywhere yet: fall back to a flat reveal-all.
+      moreWrap.innerHTML = `<button class="works-more-btn" id="works-more-btn">查看更多作品 ↓</button>`;
+      moreWrap.hidden = false;
+      document.getElementById("works-more-btn").addEventListener("click", () => {
+        renderWorkGrid(allWorks);
+        moreWrap.hidden = true;
+      });
+    } else {
       moreWrap.hidden = true;
-    });
+    }
   }
+
+  function showBrandPicker() {
+    moreWrap.innerHTML = `
+      <div class="brand-picker">
+        ${brands.map((b) => `<button class="brand-pill" data-brand="${escapeHtml(b)}">${escapeHtml(b)}</button>`).join("")}
+      </div>
+      <button class="works-more-btn works-back-btn" id="works-back-btn">← 返回精選作品</button>
+    `;
+    moreWrap.querySelectorAll(".brand-pill").forEach((btn) => {
+      btn.addEventListener("click", () => showBrandWorks(btn.dataset.brand));
+    });
+    document.getElementById("works-back-btn").addEventListener("click", showFeatured);
+  }
+
+  function showBrandWorks(brand) {
+    const filtered = allWorks
+      .filter((w) => w.brand === brand)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    renderWorkGrid(filtered);
+    moreWrap.innerHTML = `<button class="works-more-btn works-back-btn" id="works-back-btn">← 返回精選作品</button>`;
+    document.getElementById("works-back-btn").addEventListener("click", showFeatured);
+  }
+
+  showFeatured();
 }
 
 function openWorkDetail(work) {
@@ -339,13 +397,14 @@ async function fetchJson(path) {
 }
 
 async function init() {
-  const [theme, hero, about, resume, footer, works] = await Promise.all([
+  const [theme, hero, about, resume, footer, works, featured] = await Promise.all([
     fetchJson("data/theme.json"),
     fetchJson("data/hero.json"),
     fetchJson("data/about.json"),
     fetchJson("data/resume.json"),
     fetchJson("data/footer.json"),
     fetchJson("data/works-index.json").catch(() => []),
+    fetchJson("data/featured.json").catch(() => ({ works: [] })),
   ]);
 
   applyTheme(theme);
@@ -353,7 +412,7 @@ async function init() {
   renderAbout(about);
   renderResume(resume);
   renderFooter(footer);
-  renderWorks(works);
+  renderWorks(works, featured.works);
 
   document.getElementById("work-detail-backdrop").addEventListener("click", (e) => {
     if (e.target.id === "work-detail-backdrop") closeWorkDetail();

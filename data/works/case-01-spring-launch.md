@@ -1,6 +1,7 @@
 ---
 title: "歐洲銅管之聲（2026 衛武營音樂營＆歐洲銅管之聲宣傳） "
 category: 其他
+brand: "國家表演藝術中心 衛武營國家藝術文化中心"
 type: instagram
 instagramUrl: https://www.instagram.com/reel/DY1ok7BjXAl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==
 image: ""

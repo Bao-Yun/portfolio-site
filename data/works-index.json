@@ -3,6 +3,7 @@
     "slug": "case-01-spring-launch",
     "title": "歐洲銅管之聲（2026 衛武營音樂營＆歐洲銅管之聲宣傳） ",
     "category": "其他",
+    "brand": "國家表演藝術中心 衛武營國家藝術文化中心",
     "type": "instagram",
     "instagramUrl": "https://www.instagram.com/reel/DY1ok7BjXAl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     "image": "https://www.instagram.com/reel/DY1ok7BjXAl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
@@ -18,6 +19,7 @@
     "slug": "case-02-mothers-day",
     "title": "Colega AI 客樂加 社群經營",
     "category": "其他",
+    "brand": "Colega AI 客樂加",
     "type": "instagram",
     "instagramUrl": "",
     "coverImage": "",
@@ -34,6 +36,7 @@
     "slug": "case-03-anniversary-series",
     "title": "Tatler Taiwan 社群內容編輯",
     "category": "生活風格",
+    "brand": "Tatler Taiwan",
     "type": "instagram",
     "instagramUrl": "https://www.instagram.com/p/C7FzF-3PU9b/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     "coverImage": "",
@@ -45,5 +48,16 @@
     "result": "幫助品牌 Instagram 粉絲數突破 10 萬／單篇貼文分享次數破 3,000 次",
     "description": "負責社群圖文企劃與製作，並協助線下活動曝光（限時動態發布）。",
     "order": 3
+  },
+  {
+    "slug": "tatler-taiwan｜變裝皇后「妮妃雅」介紹",
+    "title": "Tatler Taiwan｜變裝皇后「妮妃雅」介紹",
+    "category": "生活風格",
+    "brand": "Tatler Taiwan",
+    "type": "instagram",
+    "coverImage": { "x": 50, "y": 50, "zoom": 100 },
+    "instagramUrl": "https://www.instagram.com/p/C6DbfUwvcN0/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    "image": { "x": 50, "y": 50, "zoom": 100 },
+    "order": 4
   }
 ]

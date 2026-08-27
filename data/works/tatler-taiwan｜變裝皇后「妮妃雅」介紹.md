@@ -1,6 +1,7 @@
 ---
 title: Tatler Taiwan｜變裝皇后「妮妃雅」介紹
 category: 生活風格
+brand: "Tatler Taiwan"
 type: instagram
 coverImage:
   x: 50

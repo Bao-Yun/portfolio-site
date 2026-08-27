@@ -13,6 +13,32 @@ function escapeHtmlWithBreaks(str) {
   return escapeHtml(str).replace(/\n/g, "<br>");
 }
 
+// Normalizes an image field to {src,x,y,zoom}. Supports the legacy plain-string
+// format (a bare path) alongside the newer {src,x,y,zoom} object, so existing
+// content set before this feature keeps rendering unchanged (x:50,y:50,zoom:100
+// is exactly the old default look: centered, filling the frame).
+function resolveImageField(value) {
+  if (!value) return null;
+  if (typeof value === "string") return { src: value, x: 50, y: 50, zoom: 100 };
+  if (!value.src) return null;
+  return {
+    src: value.src,
+    x: value.x ?? 50,
+    y: value.y ?? 50,
+    zoom: value.zoom ?? 100,
+  };
+}
+
+function backgroundImageStyle(imgField) {
+  const img = resolveImageField(imgField);
+  if (!img) return null;
+  return {
+    backgroundImage: `url("${img.src}")`,
+    backgroundPosition: `${img.x}% ${img.y}%`,
+    backgroundSize: `${img.zoom}%`,
+  };
+}
+
 function applyTheme(theme) {
   const root = document.documentElement;
   for (const key of THEME_KEYS) {
@@ -53,8 +79,9 @@ function renderHero(hero) {
 function renderAbout(about) {
   const portraitEl = document.getElementById("about-portrait");
   const labelEl = document.getElementById("about-portrait-label");
-  if (about.portrait) {
-    portraitEl.style.backgroundImage = `url("${about.portrait}")`;
+  const portraitStyle = backgroundImageStyle(about.portrait);
+  if (portraitStyle) {
+    Object.assign(portraitEl.style, portraitStyle);
     labelEl.style.display = "none";
   }
 
@@ -160,11 +187,21 @@ function ensureFacebookEmbed() {
   document.body.appendChild(script);
 }
 
+// object-fit:cover already fills+crops the frame; object-position picks the focal point,
+// and scale (transform, anchored at that same point) zooms in further within that crop.
+function imgTagHtml(imgField, altText) {
+  const img = resolveImageField(imgField);
+  if (!img) return null;
+  const style = `object-position:${img.x}% ${img.y}%; transform:scale(${img.zoom / 100}); transform-origin:${img.x}% ${img.y}%;`;
+  return `<img src="${escapeHtml(img.src)}" alt="${escapeHtml(altText)}" loading="lazy" style="${style}">`;
+}
+
 // Media that provides its own official embed widget (live, interactive — swipeable/playable)
 // instead of a static cover: no cover image to fetch or upload, just the post/video URL.
 function workMediaHtml(work) {
-  if (work.coverImage) {
-    return { html: `<img src="${escapeHtml(work.coverImage)}" alt="${escapeHtml(work.title)}" loading="lazy">`, hasEmbed: false };
+  const coverHtml = imgTagHtml(work.coverImage, work.title);
+  if (coverHtml) {
+    return { html: coverHtml, hasEmbed: false };
   }
   if (work.type === "instagram" && work.instagramUrl) {
     // Instagram's embed.js is meant to resize the iframe to fit via a postMessage handshake,
@@ -188,7 +225,8 @@ function workMediaHtml(work) {
     };
   }
   if (work.type === "image" && work.image) {
-    return { html: `<img src="${escapeHtml(work.image)}" alt="${escapeHtml(work.title)}" loading="lazy">`, hasEmbed: false };
+    const imageHtml = imgTagHtml(work.image, work.title);
+    if (imageHtml) return { html: imageHtml, hasEmbed: false };
   }
   if (work.type === "video" && work.linkUrl) {
     const embed = videoEmbedUrl(work.linkUrl);

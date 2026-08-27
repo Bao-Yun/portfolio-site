@@ -76,7 +76,15 @@ collections:
         label: "🙋 關於我"
         file: "data/about.json"
         fields:
-          - { label: "個人照片", name: "portrait", widget: "image", required: false }
+          - label: "個人照片"
+            name: "portrait"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "圖片", name: "src", widget: "image", required: false }
+              - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+              - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+              - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
           - { label: "引言 / 一句話理念（按 Enter 可自由換行）", name: "quote", widget: "text" }
           - label: "自我介紹段落"
             name: "paragraphs"
@@ -152,10 +160,27 @@ collections:
           - { label: "影片連結（YouTube/Vimeo 等）", value: "video" }
           - { label: "PDF 檔案", value: "pdf" }
           - { label: "外部連結", value: "link" }
-      - { label: "封面縮圖（選填；有填的話會優先顯示這張圖，而不是自動嵌入）", name: "coverImage", widget: "image", required: false }
+      - label: "封面縮圖（選填；有填的話會優先顯示這張圖，而不是自動嵌入）"
+        name: "coverImage"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "圖片", name: "src", widget: "image", required: false }
+          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
       - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫，網格上會自動顯示官方嵌入元件（可滑動/播放），不需要另外準備封面圖" }
       - { label: "Facebook 貼文/短影音網址", name: "facebookUrl", widget: "string", required: false, hint: "類型選 Facebook 貼文/短影音嵌入時填寫，同樣會自動顯示官方嵌入元件" }
-      - { label: "圖片上傳", name: "image", widget: "image", required: false, hint: "類型選上傳圖片時填寫" }
+      - label: "圖片上傳"
+        name: "image"
+        widget: "object"
+        required: false
+        hint: "類型選上傳圖片時填寫"
+        fields:
+          - { label: "圖片", name: "src", widget: "image", required: false }
+          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
+          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
       - { label: "影片/連結網址", name: "linkUrl", widget: "string", required: false }
       - { label: "PDF 檔案", name: "pdfFile", widget: "file", required: false }
       - { label: "目標（這個案子想達成什麼）", name: "goal", widget: "text", required: false }

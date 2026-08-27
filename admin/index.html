@@ -7,5 +7,134 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Lightweight preview panels approximating the real site's look, so editors can judge
+    // image framing (position/zoom) and overall layout without leaving the CMS.
+    // Uses Decap's documented no-build-step API: window.createClass / window.h (=
+    // React.createElement) exposed by the decap-cms.js bundle loaded above.
+
+    var COLOR = {
+      ink: "#1B1A18",
+      paper: "#F7F6F2",
+      paperAlt: "#EDEBE4",
+      sageDeep: "#5F6B58",
+      roseDeep: "#9C7C6E",
+      stone: "#B7B1A6",
+      muted: "#6E6A62",
+    };
+    var FONT = "'Noto Sans TC', sans-serif";
+    var FONT_DISPLAY = "'Noto Serif TC', serif";
+
+    function toPlain(value) {
+      if (value && typeof value.toJS === "function") return value.toJS();
+      return value || null;
+    }
+
+    // {src,x,y,zoom} -> inline style object for a background-image box. Accepts the legacy
+    // plain-string format too, matching the fallback in js/main.js.
+    function imageBoxStyle(raw, extra) {
+      var img = toPlain(raw);
+      var base = {
+        width: "100%",
+        background: COLOR.paperAlt,
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        alignItems: "flex-end",
+        color: COLOR.paper,
+        fontFamily: FONT,
+        fontSize: "11px",
+      };
+      if (typeof img === "string") img = { src: img, x: 50, y: 50, zoom: 100 };
+      if (img && img.src) {
+        base.backgroundImage = 'url("' + img.src + '")';
+        base.backgroundPosition = (img.x != null ? img.x : 50) + "% " + (img.y != null ? img.y : 50) + "%";
+        base.backgroundSize = (img.zoom != null ? img.zoom : 100) + "%";
+      }
+      for (var k in extra) base[k] = extra[k];
+      return base;
+    }
+
+    var AboutPreview = createClass({
+      render: function () {
+        var data = this.props.entry.get("data");
+        var quote = data.get("quote") || "";
+        var paragraphs = toPlain(data.get("paragraphs")) || [];
+        var tags = toPlain(data.get("tags")) || [];
+        var portrait = data.get("portrait");
+
+        return h(
+          "div",
+          { style: { padding: "24px", background: COLOR.paper, fontFamily: FONT, color: COLOR.ink } },
+          h("div", {
+            style: imageBoxStyle(portrait, { aspectRatio: "4/5", maxWidth: "220px", marginBottom: "20px" }),
+          }, portrait && toPlain(portrait) && toPlain(portrait).src ? "" : "PORTRAIT"),
+          h("p", {
+            style: { fontFamily: FONT_DISPLAY, fontStyle: "italic", color: COLOR.sageDeep, fontSize: "18px", lineHeight: 1.6, whiteSpace: "pre-wrap" },
+          }, "「" + quote + "」"),
+          paragraphs.map(function (p, i) {
+            var text = typeof p === "string" ? p : p.text;
+            return h("p", { key: i, style: { fontSize: "14px", marginTop: "14px", whiteSpace: "pre-wrap" } }, text);
+          }),
+          h(
+            "div",
+            { style: { marginTop: "16px", display: "flex", flexWrap: "wrap", gap: "8px" } },
+            tags.map(function (t, i) {
+              var text = typeof t === "string" ? t : t.tag;
+              return h("span", {
+                key: i,
+                style: { fontSize: "11px", border: "1px solid " + COLOR.stone, padding: "5px 10px", color: COLOR.muted },
+              }, text);
+            })
+          )
+        );
+      },
+    });
+
+    var WORK_TYPE_LABELS = {
+      instagram: "IG 貼文嵌入區（會顯示真實互動元件）",
+      facebook: "Facebook 嵌入區（會顯示真實互動元件）",
+      video: "影片嵌入區",
+      pdf: "PDF 檔案",
+      link: "外部連結",
+    };
+
+    var WorksPreview = createClass({
+      render: function () {
+        var data = this.props.entry.get("data");
+        var title = data.get("title") || "（尚未填寫標題）";
+        var category = data.get("category") || "";
+        var result = data.get("result") || "";
+        var type = data.get("type") || "instagram";
+        var coverImage = toPlain(data.get("coverImage"));
+        var image = toPlain(data.get("image"));
+        var mediaField = coverImage && coverImage.src ? coverImage : (type === "image" ? image : null);
+
+        return h(
+          "div",
+          { style: { padding: "24px", background: COLOR.paper, fontFamily: FONT, color: COLOR.ink, maxWidth: "360px" } },
+          h("div", {
+            style: imageBoxStyle(mediaField, {
+              aspectRatio: "1/1",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              padding: "12px",
+              border: "1px solid " + COLOR.stone,
+            }),
+          }, mediaField && mediaField.src ? "" : (WORK_TYPE_LABELS[type] || "作品")),
+          h("div", {
+            style: { fontFamily: "monospace", fontSize: "11px", color: COLOR.sageDeep, marginTop: "14px" },
+          }, "CASE — " + category),
+          h("div", {
+            style: { fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: "18px", margin: "6px 0" },
+          }, title),
+          h("div", { style: { fontSize: "12px", color: COLOR.muted } }, result)
+        );
+      },
+    });
+
+    CMS.registerPreviewTemplate("about", AboutPreview);
+    CMS.registerPreviewTemplate("works", WorksPreview);
+  </script>
 </body>
 </html>

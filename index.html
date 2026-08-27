@@ -156,7 +156,11 @@
   }
   .work-media img, .work-media iframe { width:100%; height:100%; object-fit:cover; border:0; }
   .work-media.has-embed { aspect-ratio:auto; display:flex; justify-content:center; background:var(--color-paper); cursor:auto; overflow:visible; }
-  .work-media.has-embed iframe { width:auto; max-width:100%; }
+  /* IG/FB's own auto-resize (a postMessage handshake) unreliably fails to fire at all —
+     for photo/carousel posts as well as Reels — leaving the iframe stuck at a small
+     placeholder height, truncating the embed. min-height acts as a floor regardless
+     (still grows taller if the content or a successful auto-resize needs more room). */
+  .work-media.has-embed iframe { width:auto; max-width:100%; min-height:600px; }
   /* Instagram/Facebook video embeds don't reliably self-resize to their real (9:16) height,
      so pin it ourselves instead of trusting their auto-resize. */
   .work-media.has-embed.is-reel iframe { height:auto !important; aspect-ratio:9/16 !important; max-width:400px !important; }

@@ -1,10 +1,16 @@
 {
   "eyebrow": "Get In Touch",
-  "title": "想更了解我的經歷與作品，\n歡迎與我聯絡，我很樂意進一步聊聊。",
+  "title": "想更了解更多，\n歡迎與我聯絡，我很樂意進一步聊聊。",
   "email": "baoyun612132@gmail.com",
   "phone": "0981-329-025",
   "socialLinks": [
-    { "label": "Instagram ↗", "url": "#" },
-    { "label": "LinkedIn ↗", "url": "#" }
+    {
+      "label": "Instagram ↗",
+      "url": "https://www.instagram.com/coach.bao/"
+    },
+    {
+      "label": "LinkedIn ↗",
+      "url": "https://www.linkedin.com/in/baoyunzhang/"
+    }
   ]
 }

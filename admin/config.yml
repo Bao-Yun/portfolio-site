@@ -82,9 +82,9 @@ collections:
             required: false
             fields:
               - { label: "圖片", name: "src", widget: "image", required: false }
-              - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-              - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-              - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
+              - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+              - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+              - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200, required: false }
           - { label: "引言 / 一句話理念（按 Enter 可自由換行）", name: "quote", widget: "text" }
           - label: "自我介紹段落"
             name: "paragraphs"
@@ -148,10 +148,12 @@ collections:
       - label: "分類"
         name: "category"
         widget: "select"
+        default: "其他"
         options: ["美妝", "餐飲", "3C", "生活風格", "服飾", "其他"]
       - label: "作品類型"
         name: "type"
         widget: "select"
+        default: "instagram"
         hint: "決定這個作品要怎麼呈現：IG 貼文嵌入 / Facebook 貼文或短影音嵌入 / 上傳圖片 / 影片連結 / PDF 檔案 / 外部連結"
         options:
           - { label: "Instagram 貼文嵌入", value: "instagram" }
@@ -166,9 +168,9 @@ collections:
         required: false
         fields:
           - { label: "圖片", name: "src", widget: "image", required: false }
-          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
+          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200, required: false }
       - { label: "Instagram 貼文網址", name: "instagramUrl", widget: "string", required: false, hint: "類型選 Instagram 貼文嵌入時填寫，網格上會自動顯示官方嵌入元件（可滑動/播放），不需要另外準備封面圖" }
       - { label: "Facebook 貼文/短影音網址", name: "facebookUrl", widget: "string", required: false, hint: "類型選 Facebook 貼文/短影音嵌入時填寫，同樣會自動顯示官方嵌入元件" }
       - label: "圖片上傳"
@@ -178,9 +180,9 @@ collections:
         hint: "類型選上傳圖片時填寫"
         fields:
           - { label: "圖片", name: "src", widget: "image", required: false }
-          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100 }
-          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200 }
+          - { label: "水平位置（0=最左，50=置中，100=最右）", name: "x", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+          - { label: "垂直位置（0=最上，50=置中，100=最下）", name: "y", widget: "number", value_type: "int", default: 50, min: 0, max: 100, required: false }
+          - { label: "縮放（100=鋪滿框框，數字越大越放大）", name: "zoom", widget: "number", value_type: "int", default: 100, min: 100, max: 200, required: false }
       - { label: "影片/連結網址", name: "linkUrl", widget: "string", required: false }
       - { label: "PDF 檔案", name: "pdfFile", widget: "file", required: false }
       - { label: "目標（這個案子想達成什麼）", name: "goal", widget: "text", required: false }

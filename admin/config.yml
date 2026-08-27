@@ -124,7 +124,33 @@ collections:
         file: "data/footer.json"
         fields:
           - { label: "小標籤", name: "eyebrow", widget: "string" }
-          - { label: "邀約聯絡標題（按 Enter 可自由換行）", name: "title", widget: "text" }
+          - label: "邀約聯絡標題（依序排列的文字段落，可自由控制斷行、字體大小/顏色/字型）"
+            name: "titleSegments"
+            widget: "list"
+            fields:
+              - { label: "文字內容", name: "text", widget: "string" }
+              - { label: "套用 Highlight 底色", name: "highlight", widget: "boolean", default: false }
+              - { label: "這段之後換行", name: "lineBreakAfter", widget: "boolean", default: false }
+              - { label: "文字顏色（選填，覆蓋預設）", name: "color", widget: "color", required: false }
+              - label: "字體大小（選填）"
+                name: "fontSize"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "預設", value: "" }
+                  - { label: "小", value: "small" }
+                  - { label: "中", value: "medium" }
+                  - { label: "大", value: "large" }
+                  - { label: "特大", value: "xlarge" }
+              - label: "字型（選填）"
+                name: "fontFamily"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "預設", value: "" }
+                  - { label: "標題襯線體", value: "display" }
+                  - { label: "內文黑體", value: "body" }
+                  - { label: "等寬數字體", value: "mono" }
           - { label: "Email", name: "email", widget: "string" }
           - { label: "電話（選填）", name: "phone", widget: "string", required: false }
           - label: "社群連結"

@@ -131,7 +131,7 @@ function renderResume(resume) {
 
 function renderFooter(footer) {
   document.getElementById("footer-eyebrow").textContent = footer.eyebrow || "";
-  document.getElementById("footer-title").innerHTML = escapeHtmlWithBreaks(footer.title || "");
+  document.getElementById("footer-title").innerHTML = renderTitleSegments(footer.titleSegments);
 
   const linksEl = document.getElementById("footer-links");
   const emailLink = footer.email

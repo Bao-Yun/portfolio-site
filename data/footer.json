@@ -4,7 +4,7 @@
     {
       "text": "想了解更多，",
       "highlight": false,
-      "lineBreakAfter": true,
+      "lineBreakAfter": false,
       "fontSize": "small"
     },
     {

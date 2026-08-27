@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
+  <script>
+    // Decap auto-initializes (fetches config, mounts the app) as soon as its own script
+    // tag finishes loading — before any later inline <script> gets a chance to run. That
+    // race meant registerPreviewTemplate below was too late for the very first render,
+    // leaving the preview pane permanently blank for the rest of the session. Deferring
+    // init until after registration (below) closes that race.
+    window.CMS_MANUAL_INIT = true;
+  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
     // Lightweight preview panels approximating the real site's look, so editors can judge
@@ -135,6 +143,8 @@
 
     CMS.registerPreviewTemplate("about", AboutPreview);
     CMS.registerPreviewTemplate("works", WorksPreview);
+
+    CMS.init();
   </script>
 </body>
 </html>

@@ -38,6 +38,17 @@
       return value || null;
     }
 
+    // The preview pane renders inside a srcdoc iframe whose base URI is the admin/ page
+    // itself, not the site root — so a path like "static/images/uploads/x.jpg" (correct
+    // when resolved against the real site) would resolve to ".../admin/static/images/..."
+    // in there and 404. `window` inside a preview component's render() is still the outer
+    // admin page's window (React just targets the iframe's DOM, it doesn't move execution
+    // into it), so resolve relative paths against that page's parent directory instead.
+    function resolveAssetUrl(src) {
+      if (!src || /^(https?:|data:|blob:)/.test(src)) return src;
+      return new URL("../" + src, window.location.href).href;
+    }
+
     // {src,x,y,zoom} -> inline style object for a background-image box. Accepts the legacy
     // plain-string format too, matching the fallback in js/main.js.
     function imageBoxStyle(raw, extra) {
@@ -54,7 +65,7 @@
       };
       if (typeof img === "string") img = { src: img, x: 50, y: 50, zoom: 100 };
       if (img && img.src) {
-        base.backgroundImage = 'url("' + img.src + '")';
+        base.backgroundImage = 'url("' + resolveAssetUrl(img.src) + '")';
         base.backgroundPosition = (img.x != null ? img.x : 50) + "% " + (img.y != null ? img.y : 50) + "%";
         base.backgroundSize = (img.zoom != null ? img.zoom : 100) + "%";
       }

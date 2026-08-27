@@ -142,6 +142,7 @@ collections:
             name: "works"
             widget: "list"
             max: 3
+            summary: "{{fields.work}}"
             hint: "最多只能選 3 篇，會依照這裡排列的順序顯示在首頁。超過 3 篇會在儲存/發布時擋下來並顯示提示，請刪減到 3 篇以內。清空的話首頁會自動退回顯示最新的 3 篇作品。"
             field:
               widget: "relation"

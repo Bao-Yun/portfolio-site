@@ -1,5 +1,10 @@
 {
-  "portrait": { "src": "static/images/uploads/img_8309.jpg", "x": 50, "y": 50, "zoom": 100 },
+  "portrait": {
+    "src": "static/images/uploads/img_8309.jpg",
+    "x": 88,
+    "y": 94,
+    "zoom": 129
+  },
   "quote": "期待運用創意與執行力，\n為品牌創造更多價值與影響力。",
   "paragraphs": [
     "目前就讀於中山大學行銷傳播管理研究所，擁有社群行銷、內容策劃與品牌溝通相關經驗，對數位內容創作、品牌故事傳遞及公共議題溝通充滿熱情。",

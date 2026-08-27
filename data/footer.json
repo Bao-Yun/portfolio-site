@@ -1,8 +1,18 @@
 {
   "eyebrow": "Get In Touch",
   "titleSegments": [
-    { "text": "想了解更多，", "highlight": false, "lineBreakAfter": true },
-    { "text": "歡迎與我聯絡。", "highlight": false, "lineBreakAfter": false }
+    {
+      "text": "想了解更多，",
+      "highlight": false,
+      "lineBreakAfter": true,
+      "fontSize": "small"
+    },
+    {
+      "text": "歡迎與我聯絡。",
+      "highlight": false,
+      "lineBreakAfter": false,
+      "fontSize": "small"
+    }
   ],
   "email": "baoyun612132@gmail.com",
   "phone": "0981-329-025",

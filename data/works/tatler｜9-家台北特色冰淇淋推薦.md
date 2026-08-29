@@ -1,6 +1,6 @@
 ---
 title: Tatler｜9 家台北特色冰淇淋推薦
-category: 其他
+category: 餐飲
 brand: Tatler Taiwan
 type: instagram
 coverImage:

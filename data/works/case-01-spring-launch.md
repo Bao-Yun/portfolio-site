@@ -1,15 +1,19 @@
 ---
-title: "歐洲銅管之聲（2026 衛武營音樂營＆歐洲銅管之聲宣傳） "
+title: 歐洲銅管之聲｜樂器盒開箱 w/ 田智升老師
 category: 其他
-brand: "國家表演藝術中心 衛武營國家藝術文化中心"
+brand: 國家表演藝術中心 衛武營國家藝術文化中心
 type: instagram
 instagramUrl: https://www.instagram.com/reel/DY1ok7BjXAl/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==
 image: ""
 linkUrl: ""
 pdfFile: ""
-goal: 為品牌春季限定系列造勢，帶動上市首週討論度。
-role: 圖文企劃 / 文案
-result: 協助執行「2026 衛武營音樂營暨歐洲銅管之聲」招生宣傳達成約 90% 招生率
-description: 從產品賣點出發，設計三張式輪播圖文，搭配限定感文案，於上市當週發布。
+goal: 增加音樂會受售票率
+role: 短影片企劃、拍攝、剪輯
+result: 單週社群累積 12,000+ 人次觸及
+description: |-
+  * 經營 Instagram 官方帳號，實習期間**粉絲數成長率約 12.7%**
+  * * 2026 衛武營音樂營＆歐洲銅管之聲音樂會售票宣傳
+
+    * 藉由與長號老師的有趣問答揭開音樂家的幕後神秘面紗，打破古典音樂與一般民眾的距離
 order: 1
 ---

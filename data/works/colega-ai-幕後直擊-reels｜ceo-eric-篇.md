@@ -7,7 +7,7 @@ coverImage:
   x: 50
   y: 50
   zoom: 100
-instagramUrl: https://www.instagram.com/reel/DGfd5sXCSjd/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==
+instagramUrl: https://www.instagram.com/reel/DHasdC_N-9J/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==
 image:
   x: 50
   y: 50

@@ -7,7 +7,7 @@ instagramUrl: https://www.instagram.com/reel/DY1ok7BjXAl/?utm_source=ig_web_copy
 image: ""
 linkUrl: ""
 pdfFile: ""
-goal: 增加音樂會受售票率
+goal: 增加教師音樂會售票率
 role: 短影片企劃、拍攝、剪輯
 result: 單週社群累積 12,000+ 人次觸及
 description: |-

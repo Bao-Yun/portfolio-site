@@ -12,5 +12,6 @@ image:
   x: 50
   y: 50
   zoom: 100
+role: 社群編輯
 order: 0
 ---

@@ -1,6 +1,6 @@
 ---
 title: Tatler Taiwan｜9 件事認識英超冠軍「曼城俱樂部」
-category: 其他
+category: 生活風格
 brand: Tatler Taiwan
 type: instagram
 coverImage:

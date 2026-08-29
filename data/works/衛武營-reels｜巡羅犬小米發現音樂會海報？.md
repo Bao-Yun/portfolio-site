@@ -1,6 +1,7 @@
 ---
 title: 衛武營 Reels｜巡羅犬小米發現音樂會海報？
 category: 其他
+brand: 國家表演藝術中心 衛武營國家藝術文化中心
 type: instagram
 coverImage:
   x: 50

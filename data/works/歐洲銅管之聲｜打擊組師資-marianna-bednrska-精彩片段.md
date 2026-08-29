@@ -1,6 +1,7 @@
 ---
 title: 歐洲銅管之聲｜打擊組師資 Marianna BEDNRSKA 精彩片段
 category: 其他
+brand: 國家表演藝術中心 衛武營國家藝術文化中心
 type: instagram
 coverImage:
   x: 50

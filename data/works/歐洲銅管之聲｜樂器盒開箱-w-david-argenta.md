@@ -1,5 +1,5 @@
 ---
-title: 歐洲銅管之聲｜樂器盒開箱 w/David ARGENTA
+title: 歐洲銅管之聲｜樂器盒開箱 w/ David ARGENTA 老師
 category: 其他
 brand: 國家表演藝術中心 衛武營國家藝術文化中心
 type: instagram
@@ -7,6 +7,7 @@ coverImage:
   x: 50
   y: 50
   zoom: 100
+instagramUrl: https://www.instagram.com/reel/DYPAeoyiXAe/?utm_source=ig_web_copy_link&igsi=MzRlODBiNWFlZA==
 image:
   x: 50
   y: 50

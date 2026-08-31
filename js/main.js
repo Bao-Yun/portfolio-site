@@ -398,6 +398,24 @@ async function fetchJson(path) {
   return res.json();
 }
 
+function setupNavToggle() {
+  const toggle = document.getElementById("nav-toggle");
+  const links = document.getElementById("nav-links");
+  if (!toggle || !links) return;
+  toggle.addEventListener("click", () => {
+    const isOpen = links.classList.toggle("is-open");
+    toggle.classList.toggle("is-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+  links.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", () => {
+      links.classList.remove("is-open");
+      toggle.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
 async function init() {
   const [theme, hero, about, resume, footer, works, featured] = await Promise.all([
     fetchJson("data/theme.json"),
@@ -423,4 +441,5 @@ async function init() {
   setupRevealObserver();
 }
 
+setupNavToggle();
 init().catch((err) => console.error(err));

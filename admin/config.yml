@@ -177,6 +177,7 @@ collections:
               search_fields: ["title"]
               display_fields: ["title"]
               value_field: "{{slug}}"
+              options_length: 200
 
   # ────────────────────────────────
   # 1.5 品牌／公司（讓作品可以歸類到你任職過的公司）
@@ -214,6 +215,7 @@ collections:
         search_fields: ["name"]
         display_fields: ["name"]
         value_field: "name"
+        options_length: 200
         required: false
       - label: "作品類型"
         name: "type"

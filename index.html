@@ -138,7 +138,13 @@
   /* ---------- about ---------- */
   .about { background:var(--color-paper-alt); }
   .about-grid { display:grid; grid-template-columns:0.85fr 1.15fr; gap:72px; align-items:center; }
-  @media (max-width:820px){ .about-grid { grid-template-columns:1fr; gap:40px; } .about-frame { max-width:320px; margin:0 auto; } }
+  @media (max-width:820px){
+    .about-grid { grid-template-columns:1fr; gap:40px; }
+    /* width must be explicit (not auto) here — combined with the auto side margins used
+       to center it, an auto width makes the box shrink-to-fit its own tiny content instead
+       of filling the column, collapsing the aspect-ratio box down to almost nothing. */
+    .about-frame { width:min(420px, 100%); margin:0 auto; }
+  }
   .about-frame {
     aspect-ratio:4/5; border:1px solid var(--color-ink); padding:14px; position:relative;
   }

@@ -12,5 +12,5 @@ image:
   x: 50
   y: 50
   zoom: 100
-order: 0
+order: 2
 ---

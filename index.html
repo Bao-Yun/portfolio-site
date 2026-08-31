@@ -147,9 +147,13 @@
   /* auto-fit, not a fixed column count: a live IG/FB embed has a ~326px minimum width,
      so columns narrower than that (e.g. a rigid 3-column desktop grid) clip it. This lets
      the grid pick however many columns actually fit at >=330px each. */
-  .grid-gallery { display:grid; grid-template-columns:repeat(auto-fit, minmax(330px, 1fr)); gap:2px; background:var(--color-stone); border:1px solid var(--color-stone); }
+  /* Cell dividers used to come from a background color showing through the grid's gaps,
+     but that background also shows through the EMPTY trailing cells of an incomplete last
+     row (e.g. 4 works in a 3-column grid), looking like missing/broken content. Dividers are
+     drawn per-card instead so nothing renders where there's no card. */
+  .grid-gallery { display:grid; grid-template-columns:repeat(auto-fit, minmax(330px, 1fr)); gap:0; border:1px solid var(--color-stone); }
 
-  .work-card { background:var(--color-paper); position:relative; overflow:hidden; }
+  .work-card { background:var(--color-paper); position:relative; overflow:hidden; border-right:1px solid var(--color-stone); border-bottom:1px solid var(--color-stone); }
   .work-media {
     aspect-ratio:1/1; position:relative; overflow:hidden; cursor:pointer;
     background:var(--color-paper-alt);

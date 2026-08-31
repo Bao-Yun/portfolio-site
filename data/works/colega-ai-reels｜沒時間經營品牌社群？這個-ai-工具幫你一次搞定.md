@@ -13,5 +13,6 @@ image:
   y: 50
   zoom: 100
 role: 短影片企劃、拍攝、剪輯
+description: "* 幫助品牌 IG **粉絲累積從 0 到 100**"
 order: 0
 ---
